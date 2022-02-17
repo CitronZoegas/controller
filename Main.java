@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("../FXML/mainPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/FXML/mainPage.fxml"));
         //Controller controller = fxmlLoader.getController();
         Parent root = fxmlLoader.load();
         updateQuotePanel();
@@ -35,7 +35,6 @@ public class Main extends Application {
     }
     public void updateQuotePanel() {
         Controller controller = new Controller();
-        controller.fillMainPageWithWebsites();
-
+        controller.fillMainPageWithQuotes();
     }
 }

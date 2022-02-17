@@ -4,11 +4,12 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,10 +17,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class Controller{
-
+public class Controller implements Initializable {
+    private Thread createThread;
+    private Thread deleteThread;
+    private Threading searchThread;
     @FXML
     private Stage stage;
     @FXML
@@ -29,7 +34,7 @@ public class Controller{
     @FXML
     private AnchorPane mainPane;
     @FXML
-    private Text quoteOfTheDay;
+    private TextArea quoteOfTheDay;
 
     public void addWebsiteScene(ActionEvent event) {
 
@@ -67,6 +72,7 @@ public class Controller{
             stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/stylesheets.css")).toExternalForm());
+            fillMainPageWithQuotes();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -100,37 +106,66 @@ public class Controller{
             e.printStackTrace();
         }
     }
-    public void fillMainPageWithWebsites() {
+    public void fillMainPageWithQuotes() {
         String str = null;
-        try{
 
+        try {
             Document doc = Jsoup.connect("https://www.azquotes.com/").userAgent("Mozilla/17.0").get();
-            Elements element = doc.select("div.content-slide content-slide_top");
-
+            Elements element = doc.select("div.slide");
             int i = 0;
-            for(Element quotesList:element){
+            System.out.println("lol");
+            for(Element quotesList : element){
                 System.out.println(i + Objects.requireNonNull(quotesList.getElementsByTag("a").first()).text());
                 str = i + (Objects.requireNonNull(quotesList.getElementsByTag("a").first()).text());
                 i++;
+                System.out.println("lol");
                 quoteOfTheDay.setText(str);
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void fillMainPageWithWebsites() {
+        String str = null;
 
+        try {
+            Document doc = Jsoup.connect("https://www.azquotes.com/").userAgent("Mozilla/17.0").get();
+            Elements element = doc.select("div.slide");
+            int i = 0;
+            System.out.println("lol");
+            for(Element quotesList : element){
+                System.out.println(i + Objects.requireNonNull(quotesList.getElementsByTag("a").first()).text());
+                str = i + (Objects.requireNonNull(quotesList.getElementsByTag("a").first()).text());
+                i++;
+                System.out.println("lol");
+                quoteOfTheDay.setText(str);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void exitApplication() {
         Platform.exit();
         System.exit(0);
     }
+
     public void setMinimized(ActionEvent event) {
-        System.out.println("lol");
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
 
 
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        assert quoteOfTheDay != null;
+    }
+    public void createThread(String filePath,String inputWebsite) {
+        createThread = new Thread(new Reader(this,filePath,inputWebsite),"Read and Write Thread");
+    }
+    public void deleteThread(String filePath, String inputWebsite){
+        deleteThread = new Thread(new DeleteThread(this,filePath,inputWebsite),"Read and Delete Thread");
+    }
 }

@@ -9,8 +9,9 @@ public class Threading {
     private Controller controller;
     /**
      * These classes are used to find whatever file you want inside of the System32 directory.
-     * You can obviously choose to search through the whole computer by only typing C:/ or D:/(FOR EXAMPLE) but the search will stop
-     * after the first file which name is equal to the string the user inputs, so you might not find the one you were looking for.
+     * You can obviously choose to search through the whole computer by only typing C:/ or D:/ or narrow it down to a single or narrow it down
+     * to a single path(FOR EXAMPLE) but the search will stop after the first file which name is equal to the string the user inputs, so you
+     * might not find the one you were looking for.
      */
 
     public Threading(Controller controller, String dirPath) {
@@ -41,6 +42,9 @@ public class Threading {
                 this.num = num;
             }
 
+            /**
+             * Basically continues as long as
+             */
             @Override
             public void run() {
                 try {
@@ -141,8 +145,8 @@ public class Threading {
 
         public File find() {
             final ExecutorService ex = Executors.newFixedThreadPool(concurrency + 1);
-            final BlockingQueue<File> dirQueue = new LinkedBlockingQueue<File>();
-            final BlockingQueue<File> fileQueue = new LinkedBlockingQueue<File>(10000);
+            final BlockingQueue<File> dirQueue = new LinkedBlockingQueue<>();
+            final BlockingQueue<File> fileQueue = new LinkedBlockingQueue<>(10000);
             for (int i = 0; i < concurrency; i++) {
                 ex.submit(new RunnableDirSearch(dirQueue, fileQueue, count, concurrency));
             }
@@ -153,7 +157,7 @@ public class Threading {
 
                 final File f = c.get();
 
-                controller.outPutFoundFile(f.toString());
+                //controller.outPutFoundFile(f.toString());
 
                 return f;
             } catch (final Exception e) {

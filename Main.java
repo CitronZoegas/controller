@@ -34,7 +34,8 @@ public class Main extends Application {
         launch();
     }
     public void updateQuotePanel() {
-        Controller controller = new Controller();
-        controller.fillMainPageWithQuotes();
+        Webscraping webscraping = new Webscraping();
+        webscraping.fillMainPageWithWebsites();
+        webscraping.fillMainPageWithQuotes();
     }
 }

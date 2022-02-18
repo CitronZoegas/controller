@@ -17,7 +17,7 @@ public class Reader extends Thread {
     }
 
     /**
-     * The amount of space is to make the program follow the categorization
+     * The amount of spaces on line 34 is to make the program follow the categorization
      * of the already existing websites written in the host file
      */
     @Override

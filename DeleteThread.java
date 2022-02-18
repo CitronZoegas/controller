@@ -20,11 +20,15 @@ public class DeleteThread extends Thread{
         start();
     }
 
+    /**
+     * Reading through whole file until websiteString is found and collects it and removes it.
+     */
     @Override
     public void run() {
         try{
-            File file = new File(filePath);
 
+
+            File file = new File(filePath);
             List<String> stringOut = Files.lines(file.toPath())
                     .filter(allLines -> !allLines.contains(websiteString))
                     .collect(Collectors.toList());

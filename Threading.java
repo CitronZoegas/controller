@@ -16,14 +16,14 @@ public class Threading {
 
     public Threading(Controller controller, String dirPath) {
         this.controller = controller;
-        final File baseDir = new File("C:/Windows/System32"); // Choose what directory to start searching from.
+        //C:\Windows\System32\drivers
+        final File baseDir = new File("C:/Windows/System32/drivers"); // Choose what directory to start searching from.
         final FindFile ff = new FindFile(dirPath, baseDir, 6,controller);
         final long ini = System.currentTimeMillis();
         final File f = ff.find();
         final long end = System.currentTimeMillis();
         System.out.println(f + " " + (end - ini) + " ms");
     }
-
 
     public static class FindFile {
 
@@ -41,7 +41,6 @@ public class Threading {
                 this.count = count;
                 this.num = num;
             }
-
             /**
              * Basically continues as long as
              */
@@ -157,7 +156,7 @@ public class Threading {
 
                 final File f = c.get();
 
-                //controller.outPutFoundFile(f.toString());
+                controller.outPutFoundFile(f.toString());
 
                 return f;
             } catch (final Exception e) {

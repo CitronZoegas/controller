@@ -12,13 +12,21 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
+
+    public Main instance;
+    public static Controller controller;
+
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/FXML/mainPage.fxml"));
-        //Controller controller = fxmlLoader.getController();
         Parent root = fxmlLoader.load();
-        updateQuotePanel();
+        controller = fxmlLoader.getController();
+        controller.fillMainPageWithQuotes();
+        controller.fillMainPageWithWebsites();
+
         Scene scene = new Scene(root, 613, 702);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/stylesheets.css")).toExternalForm());
 
@@ -33,9 +41,9 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch();
     }
-    public void updateQuotePanel() {
-        Webscraping webscraping = new Webscraping();
-        webscraping.fillMainPageWithWebsites();
-        webscraping.fillMainPageWithQuotes();
+
+    public static Controller getController(){
+        return controller;
     }
+
 }

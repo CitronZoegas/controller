@@ -2,14 +2,14 @@ package controller;
 
 import java.io.*;
 
-public class Reader extends Thread {
+public class ReadingInputThread extends Thread {
 
     //private long filePath;
     private Controller controller;
     private String websiteString;
     private String filePath;
 
-    public Reader(Controller controller, String filePath, String websiteString) {
+    public ReadingInputThread(Controller controller, String filePath, String websiteString) {
         this.controller = controller;
         this.filePath = filePath;
         this.websiteString = websiteString;
